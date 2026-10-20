@@ -49,6 +49,7 @@ final class Sender: NSObject, CBPeripheralManagerDelegate {
 
     private var packets: [Data] = []
     private var next = 0
+    private var retryScheduled = false
 
     func start() {
         queue.async { self.manager = CBPeripheralManager(delegate: self, queue: self.queue) }
@@ -157,7 +158,13 @@ final class Sender: NSObject, CBPeripheralManagerDelegate {
         guard let manager, let dataCharacteristic else { return }
         while next < packets.count {
             guard manager.updateValue(packets[next], for: dataCharacteristic, onSubscribedCentrals: nil) else {
-                return  // queue full; resumes in peripheralManagerIsReady
+                // Queue full. peripheralManagerIsReady resumes, but it often comes late
+                // (measured: 1 packet per 75-165 ms), so also retry soon ourselves.
+                if !retryScheduled {
+                    retryScheduled = true
+                    queue.asyncAfter(deadline: .now() + .milliseconds(4)) { self.retryScheduled = false; self.pump() }
+                }
+                return
             }
             next += 1
         }
