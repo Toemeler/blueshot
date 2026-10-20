@@ -1,0 +1,6 @@
+BlueShot.xcodeproj/
+build/
+App/Info.plist
+Broadcast/Info.plist
+*.jpg
+__pycache__/

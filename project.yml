@@ -1,0 +1,57 @@
+# XcodeGen spec; the workflow generates BlueShot.xcodeproj from this.
+name: BlueShot
+options:
+  bundleIdPrefix: de.toemeler
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    CODE_SIGNING_ALLOWED: NO
+targets:
+  BlueShot:
+    type: application
+    platform: iOS
+    sources: [App]
+    dependencies:
+      - target: Broadcast
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: de.toemeler.BlueShot
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: BlueShot
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations~ipad:
+          [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown,
+           UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UISupportedInterfaceOrientations:
+          [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft,
+           UIInterfaceOrientationLandscapeRight]
+        NSBluetoothAlwaysUsageDescription: Sends screenshots of this iPad to your PC over Bluetooth.
+        CFBundleURLTypes:
+          - CFBundleURLSchemes: [blueshot]
+  Broadcast:
+    type: app-extension
+    platform: iOS
+    sources: [Broadcast]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: de.toemeler.BlueShot.Broadcast
+    info:
+      path: Broadcast/Info.plist
+      properties:
+        CFBundleDisplayName: BlueShot
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSBluetoothAlwaysUsageDescription: Sends screenshots of this iPad to your PC over Bluetooth.
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.broadcast-services-upload
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).SampleHandler
+          RPBroadcastProcessMode: RPBroadcastProcessModeSampleBuffer
