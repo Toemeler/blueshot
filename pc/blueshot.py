@@ -48,8 +48,22 @@ async def find(timeout):
         lambda d, ad: SERVICE in [u.lower() for u in ad.service_uuids] or d.name == "BlueShot",
         timeout=timeout)
     if dev is None:
-        sys.exit("BlueShot not found: is the broadcast running on the iPad?")
+        raise RuntimeError("BlueShot not found: is the broadcast running on the iPad?")
     return dev
+
+
+async def fetch(width=1024, quality=50, scan=10, timeout=30):
+    """One screenshot: (jpeg bytes, width, height). For other scripts (the iPad skill)."""
+    dev = await find(scan)
+    async with BleakClient(dev) as client:
+        rx = Receiver()
+        await client.start_notify(DATA, rx.on_data)
+        await client.write_gatt_char(CONTROL, struct.pack("<BHBI", 1, width, quality, 0), response=True)
+        await asyncio.wait_for(rx.done.wait(), timeout)
+        _, _, _, length, w, h = rx.header
+        if not length:
+            raise RuntimeError("the broadcast has no frame yet")
+        return bytes(rx.buf[:length]), w, h
 
 
 async def run(args):
