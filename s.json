@@ -14,10 +14,10 @@
       "tintColor": "145AE6",
       "versions": [
         {
-          "version": "1.0.2",
-          "date": "2026-10-20T09:47:19Z",
-          "downloadURL": "https://github.com/Toemeler/blueshot/releases/download/build-2/BlueShot.ipa",
-          "size": 486552,
+          "version": "1.0.3",
+          "date": "2026-10-20T09:51:07Z",
+          "downloadURL": "https://github.com/Toemeler/blueshot/releases/download/build-3/BlueShot.ipa",
+          "size": 82700,
           "minOSVersion": "16.0"
         }
       ]
