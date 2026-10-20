@@ -55,7 +55,7 @@ async def find(timeout):
 async def fetch(width=1024, quality=50, scan=10, timeout=30):
     """One screenshot: (jpeg bytes, width, height). For other scripts (the iPad skill)."""
     dev = await find(scan)
-    async with BleakClient(dev) as client:
+    async with BleakClient(dev, winrt={"use_cached_services": False}) as client:
         rx = Receiver()
         await client.start_notify(DATA, rx.on_data)
         await client.write_gatt_char(CONTROL, struct.pack("<BHBI", 1, width, quality, 0), response=True)
@@ -68,7 +68,7 @@ async def fetch(width=1024, quality=50, scan=10, timeout=30):
 
 async def run(args):
     dev = await find(args.scan)
-    async with BleakClient(dev) as client:
+    async with BleakClient(dev, winrt={"use_cached_services": False}) as client:
         rx = Receiver()
         await client.start_notify(DATA, rx.on_data)
         seq = 0
