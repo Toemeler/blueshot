@@ -98,6 +98,12 @@ final class Sender: NSObject, CBPeripheralManagerDelegate {
     }
 
     func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral,
+                           didSubscribeTo characteristic: CBCharacteristic) {
+        // Shortest connection interval the PC allows: more packets per second.
+        peripheral.setDesiredConnectionLatency(.low, for: central)
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral,
                            didUnsubscribeFrom characteristic: CBCharacteristic) {
         packets = []
         next = 0
