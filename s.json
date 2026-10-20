@@ -1,0 +1,27 @@
+{
+  "name": "BlueShot",
+  "identifier": "io.github.toemeler.blueshot",
+  "iconURL": "https://toemeler.github.io/blueshot/icon.png",
+  "website": "https://github.com/Toemeler/blueshot",
+  "tintColor": "145AE6",
+  "apps": [
+    {
+      "name": "BlueShot",
+      "bundleIdentifier": "de.toemeler.BlueShot",
+      "developerName": "Toemeler",
+      "localizedDescription": "Sends the iPad's screen to a PC over Bluetooth LE while you use any app. Start the broadcast once; the PC asks for screenshots with pc/blueshot.py.",
+      "iconURL": "https://toemeler.github.io/blueshot/icon.png",
+      "tintColor": "145AE6",
+      "versions": [
+        {
+          "version": "1.0.1",
+          "date": "2026-10-20T08:01:52Z",
+          "downloadURL": "https://github.com/Toemeler/blueshot/releases/download/build-1/BlueShot.ipa",
+          "size": 56045,
+          "minOSVersion": "16.0"
+        }
+      ]
+    }
+  ],
+  "news": []
+}
