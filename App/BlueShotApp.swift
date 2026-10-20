@@ -22,6 +22,11 @@ struct BlueShotApp: App {
             }
             .padding()
             // blueshot://start opens the system sheet directly; only "Start Broadcast" is left to tap.
+            // Opening the app while not broadcasting shows the start sheet at once, so a blind
+            // Bluetooth sequence only has to tap "Start Broadcast".
+            .onAppear {
+                if !UIScreen.main.isCaptured { DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { tap(picker) } }
+            }
             .onOpenURL { url in
                 if url.host == "start" { DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { tap(picker) } }
             }
